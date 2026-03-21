@@ -1,8 +1,8 @@
 ### model
-# 底座模型名称。这里使用 Hugging Face 上的 Qwen2.5-3B-Instruct。
-# 如果远端机器之前没有下载过这个模型，训练启动时会尝试自动下载。
-# 如果远端已经把模型提前下载到了某个本地目录，也可以改成那个目录路径。
-model_name_or_path: Qwen/Qwen2.5-3B-Instruct
+# 底座模型路径。
+# 这里直接使用远端已经通过 ModelScope 下载好的本地模型目录。
+# 这样后续训练时会优先从本地加载，不再依赖在线拉取这个底模。
+model_name_or_path: /root/autodl-tmp/modelscope/models/Qwen/Qwen2___5-3B-Instruct
 
 # 是否信任模型仓库里的自定义代码。
 # Qwen 系列通常建议保留为 true，避免 tokenizer / model 加载时出现兼容问题。

@@ -1,0 +1,62 @@
+# 这份文件除了用于推理，也顺手记录一下本次训练输出目录里常见文件的含义。
+# 训练输出目录：saves/qwen2.5-3b/lora/my_sft_10
+#
+# 你这次目录下主要文件的作用如下：
+# README.md
+#   训练结果的简单说明文件，通常是自动生成的摘要信息。
+# adapter_model.safetensors
+#   最重要的 LoRA 权重文件，保存了这次 SFT 学到的增量参数。
+#   推理时真正加载的核心就是它。
+# adapter_config.json
+#   LoRA 配置文件，记录 LoRA 的结构信息，比如 rank、target modules 等。
+# chat_template.jinja
+#   对话模板文件，告诉模型如何把“用户输入/助手输出”拼成实际提示词。
+# checkpoint-10 / checkpoint-20 / checkpoint-30
+#   训练过程中的阶段性检查点，表示训练到第 10/20/30 个 step 时保存的中间结果。
+#   主要用于中断恢复、回看中间效果，最终推理一般优先用最外层最终目录。
+# tokenizer.json
+#   分词器主体文件，描述文本如何切分成 token。
+# tokenizer_config.json
+#   分词器配置文件，记录 tokenizer 的相关参数设置。
+# train_results.json
+#   最终训练结果摘要，通常包含 train loss、runtime、samples per second 等信息。
+# all_results.json
+#   汇总结果文件，通常用于统一记录训练/评估阶段的指标。
+# trainer_state.json
+#   Trainer 内部状态文件，记录 step、epoch、log history 等过程信息。
+# trainer_log.jsonl
+#   按行记录的训练日志，适合排查训练过程中每一步输出了什么。
+# training_args.bin
+#   训练参数的二进制保存文件，便于之后恢复或复现实验配置。
+# training_loss.png
+#   训练 loss 曲线图，最直观地看训练过程是否正常。
+#
+# 对你现在最重要的文件可以先只记这几个：
+# 1. adapter_model.safetensors：真正的 LoRA 权重
+# 2. adapter_config.json：LoRA 结构配置
+# 3. training_loss.png：训练曲线
+# 4. trainer_state.json / trainer_log.jsonl：排查训练过程
+
+# 底座模型路径。
+# 这里直接使用远端已经通过 ModelScope 下载好的本地模型目录。
+# 这样推理时会直接从本地加载底模，尽量避免再次联网。
+model_name_or_path: /root/autodl-tmp/modelscope/models/Qwen/Qwen2___5-3B-Instruct
+
+# LoRA 适配器目录。
+# 这里不是完整底模，而是“这次 SFT 微调学出来的增量参数”所在目录。
+# 推理时会先加载上面的基础模型，再把这里的 LoRA 权重挂载上去。
+# 如果不填写这一项，模型就只会按原始底模回答，不会带上你这次训练的效果。
+# 这里指向你刚刚训练完成后保存下来的输出目录。
+adapter_name_or_path: saves/qwen2.5-3b/lora/my_sft_10
+
+# 对话模板。
+# Qwen2 / Qwen2.5 指令模型在这套仓库里通常使用 qwen 模板。
+template: qwen
+
+# 推理后端。
+# 第一次验证建议使用 huggingface，最直接，也最少额外依赖。
+infer_backend: huggingface  # choices: [huggingface, vllm, sglang, ktransformers]
+
+# 是否信任模型仓库中的自定义代码。
+# 对 Qwen 系列通常建议保持 true。
+trust_remote_code: true
