@@ -1,0 +1,139 @@
+### model
+# 底座模型名称。这里使用 Hugging Face 上的 Qwen2.5-3B-Instruct。
+# 如果远端机器之前没有下载过这个模型，训练启动时会尝试自动下载。
+# 如果远端已经把模型提前下载到了某个本地目录，也可以改成那个目录路径。
+model_name_or_path: Qwen/Qwen2.5-3B-Instruct
+
+# 是否信任模型仓库里的自定义代码。
+# Qwen 系列通常建议保留为 true，避免 tokenizer / model 加载时出现兼容问题。
+trust_remote_code: true
+
+### method
+# 训练阶段。sft 表示监督微调（Supervised Fine-Tuning）。
+stage: sft
+
+# 是否执行训练。
+# 这是训练任务，所以设为 true。
+do_train: true
+
+# 微调方式。lora 表示只训练少量低秩适配器参数，显存压力更小，适合第一次上手。
+finetuning_type: lora
+
+# LoRA 的秩。数值越大，可训练参数越多，但显存和训练开销也会增加。
+# 第一次跑最小流程，8 是一个比较稳妥的起点。
+lora_rank: 8
+
+# LoRA 注入到哪些线性层。
+# all 表示尽量覆盖可注入模块，适合第一次验证流程，省得手动挑模块名。
+lora_target: all
+
+### dataset
+# 使用哪份数据集。这里就是你刚注册到 dataset_info.json 里的名字。
+dataset: my_sft_10
+
+# 对话模板名称。
+# 对于 Qwen2 / Qwen2.5 指令模型，这个仓库里通常使用 qwen 模板。
+template: qwen
+
+# 单条样本分词后的最大长度。
+# 你的 10 条数据都很短，512 足够，而且更省显存。
+cutoff_len: 512
+
+# 本次最多取多少条样本参与训练。
+# 这里故意限制为 10，确保就是在你手写的 10 条数据上跑通流程。
+max_samples: 10
+
+# 是否覆盖旧的数据缓存。
+# 你最近会频繁改数据，建议先开着，避免命中旧缓存看不出变化。
+overwrite_cache: true
+
+# 预处理数据时使用的并行进程数。
+# 第一次最小流程不追求速度，设成 1 更稳，日志也更容易看。
+preprocessing_num_workers: 1
+
+# DataLoader 的工作进程数。
+# 设成 0 或 1 都可以。第一次跑建议 0，能减少一些多进程相关问题。
+dataloader_num_workers: 0
+
+### output
+# 训练输出目录。
+# LoRA adapter、日志、loss 曲线等内容会保存在这里。
+output_dir: saves/qwen2.5-3b/lora/my_sft_10
+
+# 每多少个 step 打一次日志。
+# 因为样本很少，设成 1，方便你第一次观察训练过程。
+logging_steps: 1
+
+# 每多少个 step 保存一次 checkpoint。
+# 数据很小，设成 10，通常一轮内就能至少保存一次。
+save_steps: 10
+
+# 是否绘制 loss 曲线。
+# 第一次跑很建议打开，后面方便快速确认训练有没有正常下降。
+plot_loss: true
+
+# 如果输出目录已存在，是否覆盖。
+# 因为你会反复试验，先开 true 更方便。
+overwrite_output_dir: true
+
+# 是否只保存模型权重。
+# 这里设为 false，先保留完整训练产物，便于排查和恢复。
+save_only_model: false
+
+# 实验上报到哪里。
+# 第一次最小工程建议关闭外部平台依赖，避免远端还要额外配置 wandb 等服务。
+report_to: none
+
+### train
+# 每张卡上单步实际喂给模型的样本数。
+# 这里设成 1，是最省显存的起点。
+per_device_train_batch_size: 1
+
+# 梯度累计步数。
+# 有效 batch size = per_device_train_batch_size * gradient_accumulation_steps * 卡数。
+# 第一次跑通流程设成 1，逻辑最简单。
+gradient_accumulation_steps: 1
+
+# 学习率。
+# LoRA SFT 常见会比全参训练略大一些，1e-4 是常见且比较稳的起点。
+learning_rate: 1.0e-4
+
+# 训练轮数。
+# 数据只有 10 条，设成 3 轮可以明显看到训练在重复学习这批样本。
+num_train_epochs: 3.0
+
+# 学习率调度器类型。
+# cosine 是常见默认选择，够稳，也和仓库示例保持一致。
+lr_scheduler_type: cosine
+
+# warmup 比例。
+# 训练一开始用较小学习率热启动，避免前几步过于剧烈。
+warmup_ratio: 0.1
+
+# 是否启用 bf16 精度。
+# 如果远端 GPU 支持 bf16，推荐保持 true。
+# 如果远端不支持 bf16，可以把这一行改成 false，并改用 fp16: true。
+bf16: true
+
+# 是否启用 fp16 精度。
+# 默认先不启用，因为当前优先尝试 bf16。
+# 如果你在远端遇到 bf16 相关报错，可改成下面这种组合：
+# bf16: false
+# fp16: true
+# fp16: false
+
+# 分布式训练的超时时间，单位是秒相关内部参数。
+# 单卡其实基本用不到，但保留它能减少某些环境下的初始化超时报错。
+ddp_timeout: 180000000
+
+# 是否从已有 checkpoint 恢复训练。
+# 第一次从头开始训练，所以设为 null。
+resume_from_checkpoint: null
+
+### eval
+# 如果你想顺手切一部分数据做验证，可以打开下面这些配置。
+# 但你现在只有 10 条样本，第一次建议先不做 eval，先把 train 跑通。
+# val_size: 0.1
+# per_device_eval_batch_size: 1
+# eval_strategy: steps
+# eval_steps: 10
