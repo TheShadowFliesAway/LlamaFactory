@@ -71,11 +71,18 @@ report_to: none
 
 ### train
 # 每张卡每步喂入的样本数。
-per_device_train_batch_size: 1
+# 这个值直接对应你直觉里的 batch_size，也就是一次前向/反向传播实际送进显卡的样本条数。
+# 如果这里是 1，那么单步看到的输入第一维就是 1；如果这里是 2，那么单步第一维就是 2。
+# 这个参数最直接影响显存占用。
+per_device_train_batch_size: 2
 
 # 梯度累计步数。
-# 这里设成 8，得到更稳定的有效 batch size。
-gradient_accumulation_steps: 8
+# 这个值表示“连续做多少个小 batch 的前向/反向传播后，再真正更新一次参数”。
+# 它不会直接改变单步输入张量的 shape，但会改变多少个小 batch 合起来做一次优化器更新。
+# 可以把它理解成：一次塞不下更大的 batch，就分几步算梯度，最后累计起来再更新。
+# 在单卡下，有效 batch size = per_device_train_batch_size * gradient_accumulation_steps。
+# 这里设成 8，表示每步虽然只喂 1 条，但累计 8 步梯度后再更新，等效 batch size 为 8。
+gradient_accumulation_steps: 4
 
 # 学习率。
 learning_rate: 1.0e-4
