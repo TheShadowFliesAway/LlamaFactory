@@ -54,7 +54,10 @@ adapter_name_or_path: saves/qwen2.5-3b/lora/my_sft_10
 template: qwen
 
 # 推理后端。
-# 第一次验证建议使用 huggingface，最直接，也最少额外依赖。
+# 这里可以理解为“用哪套程序来运行这个模型并生成回答”。
+# 模型本身决定“学到了什么”，推理后端决定“用什么引擎把它跑起来”。
+# huggingface 是最标准、最稳、最适合第一次验证训练结果的选择。
+# 如果以后你追求更高吞吐、更快服务化部署，才通常会考虑 vllm / sglang 等其他后端。
 infer_backend: huggingface  # choices: [huggingface, vllm, sglang, ktransformers]
 
 # 是否信任模型仓库中的自定义代码。
