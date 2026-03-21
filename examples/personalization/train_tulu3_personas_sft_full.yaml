@@ -113,8 +113,15 @@ ddp_timeout: 180000000
 resume_from_checkpoint: null
 
 ### eval
-# 先不开验证集，等第一版 baseline 跑稳后再补 eval 配置。
-# val_size: 0.01
-# per_device_eval_batch_size: 1
-# eval_strategy: steps
-# eval_steps: 200
+# 切出 1% 的训练数据作为验证集。
+# 这版开始作为正式实验配置，因此打开 eval，便于记录 eval_loss。
+val_size: 0.01
+
+# 验证时每张卡的 batch size。
+per_device_eval_batch_size: 1
+
+# 按 step 间隔执行验证。
+eval_strategy: steps
+
+# 每 200 步做一次验证。
+eval_steps: 200
