@@ -1,0 +1,93 @@
+{
+  "input_path": "data/tulu3_personas_sft.jsonl",
+  "output_path": "data/tulu3_personas_sft_personalized.jsonl",
+  "total_rows": 29980,
+  "kept_rows": 2989,
+  "kept_ratio": 0.0997,
+  "rule_counts": {
+    "as_a": 2315,
+    "as_an": 417,
+    "i_am": 218,
+    "my_clients": 21,
+    "im_a": 12,
+    "known_for_my": 11,
+    "political_identity": 11,
+    "my_experience": 5,
+    "my_role": 5,
+    "my_background": 4,
+    "your_clients": 1
+  },
+  "patterns": {
+    "as_a": "^as a\\b",
+    "as_an": "^as an\\b",
+    "i_am": "\\bi am a\\b",
+    "im_a": "\\bi'm a\\b",
+    "my_role": "\\bmy role as\\b",
+    "my_clients": "\\bmy clients\\b",
+    "your_clients": "\\bfor your clients\\b",
+    "known_for_my": "\\bknown for my\\b",
+    "my_background": "\\bmy background\\b",
+    "my_experience": "\\bmy experience as\\b",
+    "political_identity": "\\bas a (liberal|conservative|democrat|republican)\\b"
+  },
+  "preview": [
+    {
+      "id": "personas_IF_oatnlfq6iivzmf1dbkpqhqe1",
+      "matched_rules": [
+        "as_a",
+        "your_clients"
+      ],
+      "prompt": "As a financial advisor with expertise in the insurance sector, create an informative guide on \"The Evolution of Life Insurance Policies in the United States\" for your clients in Brentwood, Tennessee. Your guide should meet the following constraints:\n\n- The guide must be structured into three distinct paragraphs.\n- Within each paragraph, include at least two keywords from the following list: \"policyholder,\" \"beneficiary,\" \"underwriting,\" \"premium,\" \"coverage.\"\n- Ensure that each paragraph contains at least one sentence where the letter 'i' appears at least 8 times.\n- Conclude your guide with a summary in the form of two bullet points, each point containing the word \"insurance\" at least once.",
+      "constraints": [
+        "keywords:letter frequency",
+        "format:number of bullet lists",
+        "length constraints:number of paragraphs"
+      ]
+    },
+    {
+      "id": "personas_IF_ft3nb1rgnbg90hpyadxn497h",
+      "matched_rules": [
+        "as_a",
+        "known_for_my"
+      ],
+      "prompt": "As a well-established Hollywood celebrity known for my dance skills in musicals, I want to explore new dance trends and innovations in choreography. Please provide me with a list of innovative dance styles or technologies in dance. Output two bullet lists, each containing at least five items. Additionally, write an introductory paragraph explaining the influence of technology on modern dance. Ensure that the entire output is in english and lowercase.",
+      "constraints": [
+        "format:number of bullet lists",
+        "length constraints:number of paragraphs",
+        "case:in english and lowercase"
+      ]
+    },
+    {
+      "id": "personas_IF_xzgfrpupt8bl75usu21xrt6k",
+      "matched_rules": [
+        "i_am"
+      ],
+      "prompt": "I am a conservative Canadian citizen who dislikes Trudeau. I would like a list of 7 political discussion topics that I can use to engage in conversations with friends who share my views. Each topic should include a brief description and have at least 3 placeholders for specific details or examples, such as [policy detail], [quote from a conservative leader], or [historical comparison], and the entire list should be presented in bullet points.",
+      "constraints": [
+        "content:number of placeholders"
+      ]
+    },
+    {
+      "id": "personas_IF_kfm8ciyqpth9ct53f8zs6oo4",
+      "matched_rules": [
+        "as_a"
+      ],
+      "prompt": "As a zoologist fascinated by raptors, I need a research observation schedule template for fieldwork. The schedule should cover a two-week period and include at least 4 placeholders for customizable observations, such as [specific raptor species]. Additionally, ensure that each day has a designated time slot for \"morning observations\" and \"evening observations.\" Include a section for \"weather conditions\" that can be filled in daily. Use quotation marks for all placeholders.",
+      "constraints": [
+        "content:number of placeholders",
+        "use quotation"
+      ]
+    },
+    {
+      "id": "personas_IF_p1uvxylko8ry1zztav86068n",
+      "matched_rules": [
+        "i_am"
+      ],
+      "prompt": "I am a local Bandung resident with a passion for trains and an interest in geography. I want to create an educational map-based guide highlighting the historical and current railway routes in Bandung. Can you provide me with some guidelines on how to effectively design and share this guide with the community? Include at least *three bold text sections*, and the guide should have *four distinct sections*.",
+      "constraints": [
+        "format:number of highlighted sections",
+        "format:number of sections"
+      ]
+    }
+  ]
+}

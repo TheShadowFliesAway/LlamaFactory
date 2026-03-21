@@ -9,7 +9,7 @@ from datasets import load_dataset
 
 
 DEFAULT_DATASET = "allenai/tulu-3-sft-personas-instruction-following"
-DEFAULT_OUTPUT = Path("data/tulu3_personas_sft.jsonl")
+DEFAULT_OUTPUT = Path("data/tulu3_personas/tulu3_personas_sft.jsonl")
 
 
 def parse_args() -> argparse.Namespace:

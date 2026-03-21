@@ -1,0 +1,106 @@
+### model
+# 底座模型路径。
+# 这里直接使用远端已经下载好的本地 Qwen2.5-3B-Instruct 模型目录。
+model_name_or_path: /root/autodl-tmp/modelscope/models/Qwen/Qwen2___5-3B-Instruct
+
+# 是否信任模型仓库中的自定义代码。
+trust_remote_code: true
+
+### method
+# 训练阶段。这里仍然做监督微调。
+stage: sft
+
+# 是否执行训练。
+do_train: true
+
+# 微调方式。
+finetuning_type: lora
+
+# LoRA 的秩。
+lora_rank: 8
+
+# LoRA 作用模块。
+lora_target: all
+
+### dataset
+# 使用筛选后的 persona-conditioned 子集。
+dataset: tulu3_personas_sft_personalized
+
+# Qwen2 / Qwen2.5 指令模型模板。
+template: qwen
+
+# 最大长度。
+# persona 子集同样可能有长样本，先与全量配置保持一致。
+cutoff_len: 1024
+
+# 是否覆盖旧缓存。
+overwrite_cache: true
+
+# 预处理并行进程数。
+preprocessing_num_workers: 4
+
+# DataLoader 进程数。
+dataloader_num_workers: 0
+
+### output
+# 输出目录。
+output_dir: saves/qwen2.5-3b/lora/tulu3_personas_sft_personalized
+
+# 日志步数。
+logging_steps: 10
+
+# 保存步数。
+# 子集更小，因此更频繁一些，便于回看中间 checkpoint。
+save_steps: 100
+
+# 是否绘制 loss 曲线。
+plot_loss: true
+
+# 是否覆盖已有输出目录。
+overwrite_output_dir: true
+
+# 是否仅保存模型文件。
+save_only_model: false
+
+# 实验上报到哪里。
+report_to: none
+
+### train
+# 每张卡每步样本数。
+per_device_train_batch_size: 1
+
+# 梯度累计步数。
+gradient_accumulation_steps: 8
+
+# 学习率。
+learning_rate: 1.0e-4
+
+# 训练轮数。
+# persona 子集样本更少，第一版可以先做 2 个 epoch 看 persona 对齐情况。
+num_train_epochs: 2.0
+
+# 学习率调度器。
+lr_scheduler_type: cosine
+
+# warmup 比例。
+warmup_ratio: 0.1
+
+# 是否启用 bf16。
+bf16: true
+
+# 如果 bf16 在远端不兼容，可改为：
+# bf16: false
+# fp16: true
+
+# 分布式超时时间。
+ddp_timeout: 180000000
+
+# 从已有 checkpoint 恢复。
+resume_from_checkpoint: null
+
+### eval
+# 先不开验证集，等这版 persona 子集 baseline 跑稳后再补。
+# val_size: 0.02
+# per_device_eval_batch_size: 1
+# eval_strategy: steps
+# eval_steps: 100

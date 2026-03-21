@@ -1,0 +1,112 @@
+### model
+# 底座模型路径。
+# 这里直接使用远端已经下载好的本地 Qwen2.5-3B-Instruct 模型目录。
+model_name_or_path: /root/autodl-tmp/modelscope/models/Qwen/Qwen2___5-3B-Instruct
+
+# 是否信任模型仓库中的自定义代码。
+# 对 Qwen 系列通常建议保持 true。
+trust_remote_code: true
+
+### method
+# 训练阶段。这里做监督微调，所以使用 sft。
+stage: sft
+
+# 是否执行训练。
+do_train: true
+
+# 微调方式。这里继续沿用 LoRA，便于控制显存占用。
+finetuning_type: lora
+
+# LoRA 的秩。8 是比较稳妥的单卡起点。
+lora_rank: 8
+
+# LoRA 作用到哪些模块。
+# all 表示尽量覆盖可注入的线性层，先做一个稳定 baseline。
+lora_target: all
+
+### dataset
+# 使用全量 Tulu-3 personas SFT 数据。
+dataset: tulu3_personas_sft
+
+# Qwen2 / Qwen2.5 指令模型通常使用 qwen 模板。
+template: qwen
+
+# 单条样本的最大 token 长度。
+# 这份数据里有不少长回答，先从 1024 起步，兼顾信息量和显存。
+cutoff_len: 1024
+
+# 是否覆盖旧缓存。
+overwrite_cache: true
+
+# 预处理并行进程数。
+# 先设置成 4，速度和稳定性都比较均衡；如果远端不稳可降到 1。
+preprocessing_num_workers: 4
+
+# DataLoader 进程数。
+# 先保守设为 0，减少多进程带来的排查成本。
+dataloader_num_workers: 0
+
+### output
+# 训练输出目录。
+output_dir: saves/qwen2.5-3b/lora/tulu3_personas_sft_full
+
+# 每多少步打印一次日志。
+logging_steps: 10
+
+# 每多少步保存一次 checkpoint。
+# 全量数据规模更大，这里先每 200 步保存一次。
+save_steps: 200
+
+# 是否绘制 loss 曲线。
+plot_loss: true
+
+# 是否覆盖已有输出目录。
+overwrite_output_dir: true
+
+# 是否只保存模型文件。
+save_only_model: false
+
+# 实验上报到哪里。
+report_to: none
+
+### train
+# 每张卡每步喂入的样本数。
+per_device_train_batch_size: 1
+
+# 梯度累计步数。
+# 这里设成 8，得到更稳定的有效 batch size。
+gradient_accumulation_steps: 8
+
+# 学习率。
+learning_rate: 1.0e-4
+
+# 训练轮数。
+# 第一版正式 baseline 先做 1 个 epoch，先看整体表现和训练成本。
+num_train_epochs: 1.0
+
+# 学习率调度器。
+lr_scheduler_type: cosine
+
+# warmup 比例。
+warmup_ratio: 0.1
+
+# 是否启用 bf16。
+# 如果远端环境支持 bf16，推荐保持 true。
+bf16: true
+
+# 如果 bf16 在远端不兼容，可改为：
+# bf16: false
+# fp16: true
+
+# 分布式超时时间。单卡一般不会用到，但保留更稳。
+ddp_timeout: 180000000
+
+# 从已有 checkpoint 恢复。首次训练设为 null。
+resume_from_checkpoint: null
+
+### eval
+# 先不开验证集，等第一版 baseline 跑稳后再补 eval 配置。
+# val_size: 0.01
+# per_device_eval_batch_size: 1
+# eval_strategy: steps
+# eval_steps: 200

@@ -11,6 +11,32 @@
   "my_sft_10": {
     "file_name": "my_sft_10.json"
   },
+  "tulu3_personas_sft": {
+    "file_name": "tulu3_personas/tulu3_personas_sft.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "tulu3_personas_sft_personalized": {
+    "file_name": "tulu3_personas/tulu3_personas_sft_personalized.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
   "glaive_toolcall_en_demo": {
     "file_name": "glaive_toolcall_en_demo.json",
     "formatting": "sharegpt",
