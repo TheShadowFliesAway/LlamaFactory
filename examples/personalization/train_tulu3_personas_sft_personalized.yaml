@@ -30,8 +30,9 @@ dataset: tulu3_personas_sft_personalized
 template: qwen
 
 # 最大长度。
-# persona 子集同样可能有长样本，先与全量配置保持一致。
-cutoff_len: 1024
+# 这里把上限适当提高到 1536，让训练时能保留更完整的长样本内容。
+# 它会增加显存和计算量，但在保持 batch=1 的情况下通常比直接提 batch 更稳。
+cutoff_len: 1536
 
 # 是否覆盖旧缓存。
 overwrite_cache: true
