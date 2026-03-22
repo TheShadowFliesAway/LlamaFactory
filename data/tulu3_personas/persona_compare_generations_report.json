@@ -1,0 +1,12 @@
+{
+  "input": "data/tulu3_personas/persona_compare_samples_clean.jsonl",
+  "output": "data/tulu3_personas/persona_compare_generations.jsonl",
+  "num_rows": 200,
+  "template": "qwen",
+  "model_a_path": "saves/qwen2.5-3b/merged/tulu3_personas_sft_full",
+  "adapter_a_path": null,
+  "model_b_path": "saves/qwen2.5-3b/merged/tulu3_personas_sft_personalized",
+  "adapter_b_path": null,
+  "max_new_tokens": 512,
+  "batch_size": 1
+}
