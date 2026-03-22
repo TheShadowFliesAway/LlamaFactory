@@ -1,0 +1,70 @@
+{
+  "input_path": "data/tulu3_personas/tulu3_personas_pref_pairwise.jsonl",
+  "output_path": "data/tulu3_personas/persona_compare_samples_clean.jsonl",
+  "total_candidates": 19890,
+  "selected_samples": 200,
+  "per_category_limit": 40,
+  "category_distribution": {
+    "audience": 40,
+    "location_identity": 137,
+    "profession": 3,
+    "celebrity_style": 40,
+    "generic_persona": 40,
+    "politics": 43
+  },
+  "categories_defined": [
+    "profession",
+    "audience",
+    "politics",
+    "celebrity_style",
+    "location_identity",
+    "generic_persona"
+  ],
+  "preview": [
+    {
+      "id": "persona_compare_001",
+      "source_id": "personas_IF_gu13igjzt86yex2n9z55iv92",
+      "categories": [
+        "audience",
+        "location_identity"
+      ],
+      "prompt": "I'm a violinist with a rebellious spirit always challenging the cellist's traditional style. I want to create a series of online videos showcasing innovative violin techniques that break away from classical norms. Can you provide me with some guidance on how to effectively reach an audience interested in unconventional string music? Please include your response in English and use proper punctuation but exclude commas. Also ensure there are exactly 3 bold text sections in your response."
+    },
+    {
+      "id": "persona_compare_002",
+      "source_id": "personas_IF_mubsayfp5sa9onbjj68afvqv",
+      "categories": [
+        "audience",
+        "location_identity"
+      ],
+      "prompt": "I want to create a series of podcasts that explore the intersection of film music and baseball, especially focusing on Mychael Danna's work and its impact on sports narratives. Can you provide guidance on how to approach this niche topic and ensure it resonates with both film score enthusiasts and baseball fans? Make sure to include at least *three bold text sections* in your response, discussing topics such as *how to use keywords effectively* and *ways to increase audience engagement*. Also, please include a postscript with additional resources for further reading.\n\nI want to create a series of podcasts that explore the intersection of film music and baseball, especially focusing on Mychael Danna's work and its impact on sports narratives. Can you provide guidance on how to approach this niche topic and ensure it resonates with both film score enthusiasts and baseball fans? Make sure to include at least *three bold text sections* in your response, discussing topics such as *how to use keywords effectively* and *ways to increase audience engagement*. Also, please include a postscript with additional resources for further reading."
+    },
+    {
+      "id": "persona_compare_003",
+      "source_id": "personas_IF_b1bhmsdk2f6ash8sdfscilzn",
+      "categories": [
+        "audience",
+        "location_identity"
+      ],
+      "prompt": "As a charismatic and witty DJ, I'm always looking for ways to keep the conversation lively and engaging. Could you help me explain to my retiree audience why music from the '60s and '70s has such an enduring appeal? Your explanation should be vibrant and intriguing. \n\nThe response should be formatted with 3 highlighted sections and include 2 bullet lists. Make sure to incorporate the keywords: 'vinyl', 'dancefloor', and 'nostalgia'."
+    },
+    {
+      "id": "persona_compare_004",
+      "source_id": "personas_IF_p4dtsh6sdnd5s2cgbugbcpep",
+      "categories": [
+        "audience",
+        "location_identity"
+      ],
+      "prompt": "I am preparing for a community book discussion event focused on social justice themes and need 8 discussion prompts to engage my audience. Please provide these prompts in Spanish, and highlight more than 2 prompts that specifically address racial equality."
+    },
+    {
+      "id": "persona_compare_005",
+      "source_id": "personas_IF_rb1rwq0bgootz362pow5blxz",
+      "categories": [
+        "audience",
+        "location_identity"
+      ],
+      "prompt": "As a TV host who has interviewed multiple Grammy Award winners and has insider knowledge of the music industry, I want to create a podcast series that explores untold stories behind iconic albums. This podcast will be a unique blend of storytelling and exclusive interviews. Can you give me some insights on how to make this podcast successful in today's competitive market? The response should have at least 3 **bold text** sections, and include the keywords \"audience engagement\" and \"branding\" at least twice each."
+    }
+  ]
+}
