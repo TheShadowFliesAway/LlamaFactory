@@ -1,3 +1,7 @@
+### Run
+# 运行命令：
+# llamafactory-cli train examples/personalization/train_tulu3_personas_sft_full.yaml
+
 ### model
 # 底座模型路径。
 # 这里直接使用远端已经下载好的本地 Qwen2.5-3B-Instruct 模型目录。

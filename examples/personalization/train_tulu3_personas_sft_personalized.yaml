@@ -1,3 +1,7 @@
+### Run
+# 运行命令：
+# llamafactory-cli train examples/personalization/train_tulu3_personas_sft_personalized.yaml
+
 ### model
 # 二阶段训练使用的基础模型路径。
 # 这里不再直接使用最原始的 Qwen2.5-3B-Instruct，

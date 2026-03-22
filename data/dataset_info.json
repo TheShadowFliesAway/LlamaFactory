@@ -37,6 +37,16 @@
       "assistant_tag": "assistant"
     }
   },
+  "tulu3_personas_pref_pairwise": {
+    "file_name": "tulu3_personas/tulu3_personas_pref_pairwise.jsonl",
+    "ranking": true,
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "chosen": "chosen",
+      "rejected": "rejected"
+    }
+  },
   "glaive_toolcall_en_demo": {
     "file_name": "glaive_toolcall_en_demo.json",
     "formatting": "sharegpt",

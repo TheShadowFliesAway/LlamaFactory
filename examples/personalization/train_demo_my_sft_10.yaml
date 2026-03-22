@@ -1,3 +1,7 @@
+### Run
+# 运行命令：
+# llamafactory-cli train examples/personalization/train_demo_my_sft_10.yaml
+
 ### model
 # 底座模型路径。
 # 这里直接使用远端已经通过 ModelScope 下载好的本地模型目录。

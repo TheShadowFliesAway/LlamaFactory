@@ -181,3 +181,7 @@ wandb/
 swanlog/
 generated_predictions.jsonl
 predictions_score.json
+
+# local personalization preference artifacts
+data/tulu3_personas/tulu3_personas_pref_pairwise.jsonl
+data/tulu3_personas/tulu3_personas_pref_pairwise_report.json

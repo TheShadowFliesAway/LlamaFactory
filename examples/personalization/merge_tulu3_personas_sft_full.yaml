@@ -1,3 +1,7 @@
+### Run
+# 运行命令：
+# llamafactory-cli export examples/personalization/merge_tulu3_personas_sft_full.yaml
+
 ### Note
 # 合并 LoRA adapter 时，不要使用量化模型或 quantization_bit。
 # 这一步的目标是把第一阶段全量 SFT 学到的 LoRA 权重并回基础模型，

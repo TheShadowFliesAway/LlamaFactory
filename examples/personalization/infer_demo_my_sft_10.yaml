@@ -1,3 +1,6 @@
+# 运行命令：
+# llamafactory-cli chat examples/personalization/infer_demo_my_sft_10.yaml
+#
 # 这份文件除了用于推理，也顺手记录一下本次训练输出目录里常见文件的含义。
 # 训练输出目录：saves/qwen2.5-3b/lora/my_sft_10
 #

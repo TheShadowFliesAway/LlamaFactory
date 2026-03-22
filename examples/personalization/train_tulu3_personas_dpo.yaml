@@ -1,0 +1,113 @@
+### Run
+# 运行命令：
+# llamafactory-cli train examples/personalization/train_tulu3_personas_dpo.yaml
+
+### model
+# DPO 阶段使用的基础模型。
+# 这里建议使用“第二阶段 persona SFT merge 后”的完整模型目录。
+model_name_or_path: saves/qwen2.5-3b/merged/tulu3_personas_sft_personalized
+
+# 是否信任模型仓库中的自定义代码。
+trust_remote_code: true
+
+### method
+# 训练阶段。DPO / ORPO / SimPO 在这套仓库里都走 stage: dpo。
+stage: dpo
+
+# 是否执行训练。
+do_train: true
+
+# 微调方式。继续使用 LoRA，控制显存占用。
+finetuning_type: lora
+
+# LoRA 的秩。
+lora_rank: 8
+
+# LoRA 作用模块。
+lora_target: all
+
+# 偏好优化的 beta 参数。
+pref_beta: 0.1
+
+# 损失类型。sigmoid 对应标准 DPO。
+pref_loss: sigmoid  # choices: [sigmoid (dpo), orpo, simpo]
+
+### dataset
+# 使用转换后的 pairwise preference 数据。
+dataset: tulu3_personas_pref_pairwise
+
+# Qwen2 / Qwen2.5 指令模型模板。
+template: qwen
+
+# 最大长度。偏好训练也可能遇到长样本，先保持和 SFT 一致。
+cutoff_len: 1536
+
+# 是否覆盖旧缓存。
+overwrite_cache: true
+
+# 预处理并行进程数。
+preprocessing_num_workers: 4
+
+# DataLoader 进程数。先保持 0，更稳。
+dataloader_num_workers: 0
+
+### output
+# 输出目录。
+output_dir: saves/qwen2.5-3b/lora/tulu3_personas_dpo
+
+# 日志和保存间隔。
+logging_steps: 10
+save_steps: 100
+
+# 是否绘制 loss 曲线。
+plot_loss: true
+
+# 是否覆盖已有输出目录。
+overwrite_output_dir: true
+
+# 是否仅保存模型文件。
+save_only_model: false
+
+# 是否上报外部实验平台。
+report_to: none
+
+### train
+# 每张卡每步样本数。偏好训练通常更吃显存，先从 1 开始。
+per_device_train_batch_size: 1
+
+# 梯度累计步数。
+gradient_accumulation_steps: 8
+
+# 学习率。
+# 偏好训练通常比 SFT 更保守，这里先用 5e-6。
+learning_rate: 5.0e-6
+
+# 训练轮数。
+# 第一次 DPO 先从 1 个 epoch 起步，更稳。
+num_train_epochs: 1.0
+
+# 学习率调度器。
+lr_scheduler_type: cosine
+
+# warmup 比例。
+warmup_ratio: 0.1
+
+# 是否启用 bf16。
+bf16: true
+
+# 如果 bf16 不兼容，可改为：
+# bf16: false
+# fp16: true
+
+# 分布式超时时间。
+ddp_timeout: 180000000
+
+# 从已有 checkpoint 恢复。
+resume_from_checkpoint: null
+
+### eval
+# 正式实验版先打开验证集，便于记录 eval_loss。
+val_size: 0.02
+per_device_eval_batch_size: 1
+eval_strategy: steps
+eval_steps: 100
