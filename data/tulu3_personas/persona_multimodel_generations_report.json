@@ -1,0 +1,30 @@
+{
+  "input": "data/tulu3_personas/persona_compare_samples_clean.jsonl",
+  "output": "data/tulu3_personas/persona_multimodel_generations.jsonl",
+  "num_rows": 200,
+  "template": "qwen",
+  "models": [
+    {
+      "name": "stage1",
+      "model_path": "saves/qwen2.5-3b/merged/tulu3_personas_sft_full",
+      "adapter_path": null
+    },
+    {
+      "name": "stage2",
+      "model_path": "saves/qwen2.5-3b/merged/tulu3_personas_sft_personalized",
+      "adapter_path": null
+    },
+    {
+      "name": "dpo",
+      "model_path": "saves/qwen2.5-3b/merged/tulu3_personas_dpo",
+      "adapter_path": null
+    },
+    {
+      "name": "orpo",
+      "model_path": "saves/qwen2.5-3b/merged/tulu3_personas_orpo",
+      "adapter_path": null
+    }
+  ],
+  "max_new_tokens": 512,
+  "batch_size": 1
+}
