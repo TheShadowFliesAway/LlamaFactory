@@ -13,10 +13,13 @@ This folder contains the helper scripts used to prepare data and evaluation arti
 ## Comparison Set Preparation
 
 - `build_persona_comparison_set.py`
-  - Build a small comparison set from the persona subset.
+  - Build a held-out comparison/test set from `tulu3_personas_pref_pairwise.jsonl`.
+  - The exported file still uses the `prompt` field so the generation script can read it directly.
+  - Writes its own build report, separate from the train/test split report.
 
 - `clean_and_split_persona_compare_set.py`
-  - Clean duplicated prompt blocks in the comparison set and remove comparison samples from the stage-2 training subset.
+  - Remove the selected comparison/test rows from `tulu3_personas_pref_pairwise.jsonl`.
+  - Write the remaining rows to `tulu3_personas_pref_pairwise_train.jsonl` for DPO / ORPO training.
 
 ## Preference Data Preparation
 
@@ -38,8 +41,9 @@ This folder contains the helper scripts used to prepare data and evaluation arti
 
 1. Download SFT data
 2. Filter persona subset
-3. Build and clean comparison set
+3. Build the held-out comparison/test set from pairwise preference data
 4. Download preference data
 5. Convert preference data to pairwise format
-6. Run stage-1 vs stage-2 generation on the comparison set
-7. Judge the comparison outputs with an LLM API
+6. Split the pairwise preference data into compare/test and preference-train subsets
+7. Run stage-1 vs stage-2 generation on the comparison set
+8. Judge the comparison outputs with an LLM API

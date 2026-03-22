@@ -12,8 +12,8 @@
 #
 # Compare two fully merged models:
 # python3 scripts/personalization_data/run_persona_compare_generation.py \
-#   --model-a-path /path/to/model_a \
-#   --model-b-path /path/to/model_b \
+#   --model-a-path saves/qwen2.5-3b/merged/tulu3_personas_sft_full \
+#   --model-b-path saves/qwen2.5-3b/merged/tulu3_personas_sft_personalized \
 #   --trust-remote-code
 
 import argparse

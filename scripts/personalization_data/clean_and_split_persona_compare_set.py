@@ -1,23 +1,32 @@
 #!/usr/bin/env python3
-"""Clean persona comparison prompts and remove them from the stage-2 training subset."""
+"""Split pairwise preference data into held-out comparison/test and training subsets."""
+
+# Example usage:
+#
+# Remove the selected comparison/test rows from the pairwise preference data:
+# python3 scripts/personalization_data/clean_and_split_persona_compare_set.py \
+#   --persona-input data/tulu3_personas/tulu3_personas_pref_pairwise.jsonl \
+#   --compare-input data/tulu3_personas/persona_compare_samples_clean.jsonl \
+#   --train-output data/tulu3_personas/tulu3_personas_pref_pairwise_train.jsonl \
+#   --report data/tulu3_personas/persona_compare_clean_split_report.json
 
 import argparse
 import json
 from pathlib import Path
 
 
-DEFAULT_PERSONA_INPUT = Path("data/tulu3_personas/tulu3_personas_sft_personalized.jsonl")
-DEFAULT_COMPARE_INPUT = Path("data/tulu3_personas/persona_compare_samples.jsonl")
+DEFAULT_PERSONA_INPUT = Path("data/tulu3_personas/tulu3_personas_pref_pairwise.jsonl")
+DEFAULT_COMPARE_INPUT = Path("data/tulu3_personas/persona_compare_samples_clean.jsonl")
 DEFAULT_COMPARE_OUTPUT = Path("data/tulu3_personas/persona_compare_samples_clean.jsonl")
-DEFAULT_TRAIN_OUTPUT = Path("data/tulu3_personas/tulu3_personas_sft_personalized_train.jsonl")
+DEFAULT_TRAIN_OUTPUT = Path("data/tulu3_personas/tulu3_personas_pref_pairwise_train.jsonl")
 DEFAULT_REPORT = Path("data/tulu3_personas/persona_compare_clean_split_report.json")
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Clean the comparison prompts and remove those source samples from the persona "
-            "stage-2 training subset."
+            "Remove the selected comparison/test rows from the pairwise preference data "
+            "and write the remaining rows as a preference training subset."
         )
     )
     parser.add_argument("--persona-input", default=str(DEFAULT_PERSONA_INPUT))
@@ -29,12 +38,10 @@ def parse_args() -> argparse.Namespace:
 
 
 def normalize_prompt(text: str) -> tuple[str, bool]:
-    # Some prompts duplicate the whole block after a blank line.
     parts = [part.strip() for part in text.split("\n\n") if part.strip()]
     if len(parts) >= 2 and parts[0] == parts[-1]:
         return parts[0], True
 
-    # Normalize excessive whitespace without changing content semantics too much.
     normalized = "\n\n".join(parts) if parts else text.strip()
     return normalized, normalized != text
 
@@ -65,34 +72,29 @@ def main() -> None:
             compare_rows.append(row)
             compare_ids.add(str(row["source_id"]))
 
-    total_persona_rows = 0
+    total_rows = 0
     kept_train_rows = 0
     removed_for_compare = 0
     cleaned_train_prompts = 0
 
     with train_output.open("w", encoding="utf-8") as fout:
-        for line in persona_input.open("r", encoding="utf-8"):
-            row = json.loads(line)
-            total_persona_rows += 1
+        with persona_input.open("r", encoding="utf-8") as fin:
+            for line in fin:
+                row = json.loads(line)
+                total_rows += 1
 
-            if str(row["id"]) in compare_ids:
-                removed_for_compare += 1
-                continue
+                if str(row["id"]) in compare_ids:
+                    removed_for_compare += 1
+                    continue
 
-            normalized_prompt, changed = normalize_prompt(str(row["prompt"]))
-            row["prompt"] = normalized_prompt
+                normalized_prompt, changed = normalize_prompt(str(row["instruction"]))
+                row["instruction"] = normalized_prompt
 
-            messages = row.get("messages")
-            if isinstance(messages, list) and messages:
-                first = messages[0]
-                if isinstance(first, dict) and first.get("role") == "user":
-                    first["content"] = normalized_prompt
+                if changed:
+                    cleaned_train_prompts += 1
 
-            if changed:
-                cleaned_train_prompts += 1
-
-            fout.write(json.dumps(row, ensure_ascii=False) + "\n")
-            kept_train_rows += 1
+                fout.write(json.dumps(row, ensure_ascii=False) + "\n")
+                kept_train_rows += 1
 
     with compare_output.open("w", encoding="utf-8") as fout:
         for row in compare_rows:
@@ -103,7 +105,7 @@ def main() -> None:
         "compare_input": str(compare_input),
         "compare_output": str(compare_output),
         "train_output": str(train_output),
-        "total_persona_rows": total_persona_rows,
+        "total_rows": total_rows,
         "compare_rows": len(compare_rows),
         "removed_for_compare": removed_for_compare,
         "kept_train_rows": kept_train_rows,
@@ -114,8 +116,8 @@ def main() -> None:
     with report_output.open("w", encoding="utf-8") as fout:
         json.dump(report, fout, ensure_ascii=False, indent=2)
 
-    print(f"Saved cleaned comparison set to {compare_output}")
-    print(f"Saved stage-2 train subset without comparison samples to {train_output}")
+    print(f"Saved cleaned comparison/test set to {compare_output}")
+    print(f"Saved preference train subset without comparison rows to {train_output}")
     print(f"Saved report to {report_output}")
 
 

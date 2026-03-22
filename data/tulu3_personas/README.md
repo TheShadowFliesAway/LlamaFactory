@@ -10,19 +10,21 @@ This folder stores the local data files used in the personalization experiment p
 
 - `tulu3_personas_sft_personalized.jsonl`
   - First-pass persona-conditioned subset filtered from the full SFT file.
-
-- `tulu3_personas_sft_personalized_train.jsonl`
-  - Stage-2 training subset after removing the comparison samples.
   - This is the file currently used by `tulu3_personas_sft_personalized` in `data/dataset_info.json`.
 
 ## Comparison / Evaluation Data
 
 - `persona_compare_samples_clean.jsonl`
-  - Cleaned comparison prompt set for stage-1 vs stage-2 generation comparison.
+  - Held-out comparison/test prompt set.
+  - Rebuilt from `tulu3_personas_pref_pairwise.jsonl`, not from the SFT persona subset.
 
 - `persona_compare_clean_split_report.json`
-  - Report for the clean/split step.
-  - Records how many comparison samples were removed from the stage-2 train subset and how many prompts were cleaned.
+  - Report for the pairwise preference split step.
+  - Records how many comparison rows were removed from the pairwise preference source and how many rows remain in the preference training subset.
+
+- `persona_compare_build_report.json`
+  - Report for the comparison/test-set construction step.
+  - Records how many pairwise preference candidates were scanned and how many were selected by category.
 
 ## Preference Data
 
@@ -31,6 +33,11 @@ This folder stores the local data files used in the personalization experiment p
 
 - `tulu3_personas_pref_pairwise.jsonl`
   - Converted pairwise preference file used for DPO / ORPO.
+  - Also serves as the source file for building the held-out comparison/test prompts.
+
+- `tulu3_personas_pref_pairwise_train.jsonl`
+  - Pairwise preference training subset after removing the comparison/test rows.
+  - This is the file that should be used by `tulu3_personas_pref_pairwise` in `data/dataset_info.json` after you rerun the split pipeline.
 
 - `tulu3_personas_pref_pairwise_report.json`
   - Report for the pairwise conversion step.
@@ -49,11 +56,11 @@ The following dataset names are currently registered in `data/dataset_info.json`
   - message-style SFT dataset
 
 - `tulu3_personas_sft_personalized`
-  - points to `tulu3_personas_sft_personalized_train.jsonl`
+  - points to `tulu3_personas_sft_personalized.jsonl`
   - message-style SFT dataset for stage-2 persona training
 
 - `tulu3_personas_pref_pairwise`
-  - points to `tulu3_personas_pref_pairwise.jsonl`
+  - currently points to `tulu3_personas_pref_pairwise.jsonl`
   - pairwise preference dataset for DPO / ORPO
 
 ## Practical Notes
@@ -66,4 +73,4 @@ The following dataset names are currently registered in `data/dataset_info.json`
   - `instruction` comes from the original `prompt`
   - `chosen` / `rejected` come from the assistant responses in the original preference samples
 
-- The comparison prompts are removed from `tulu3_personas_sft_personalized_train.jsonl` to reduce stage-2 leakage.
+- The held-out comparison/test prompts should now be built from the pairwise preference file, then removed into `tulu3_personas_pref_pairwise_train.jsonl`.

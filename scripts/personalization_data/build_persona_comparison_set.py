@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
-"""Build a small comparison set for stage-1 vs stage-2 persona evaluation."""
+"""Build a comparison/test set from the pairwise preference data."""
+
+# Example usage:
+#
+# Build a 200-sample comparison/test set from the pairwise preference data:
+# python3 scripts/personalization_data/build_persona_comparison_set.py \
+#   --input data/tulu3_personas/tulu3_personas_pref_pairwise.jsonl \
+#   --output data/tulu3_personas/persona_compare_samples_clean.jsonl \
+#   --report data/tulu3_personas/persona_compare_build_report.json \
+#   --max-samples 200 \
+#   --per-category 40
 
 import argparse
 import json
@@ -8,9 +18,9 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 
-DEFAULT_INPUT = Path("data/tulu3_personas/tulu3_personas_sft_personalized.jsonl")
-DEFAULT_OUTPUT = Path("data/tulu3_personas/persona_compare_samples.jsonl")
-DEFAULT_REPORT = Path("data/tulu3_personas/persona_compare_samples_report.json")
+DEFAULT_INPUT = Path("data/tulu3_personas/tulu3_personas_pref_pairwise.jsonl")
+DEFAULT_OUTPUT = Path("data/tulu3_personas/persona_compare_samples_clean.jsonl")
+DEFAULT_REPORT = Path("data/tulu3_personas/persona_compare_build_report.json")
 
 
 CATEGORY_PATTERNS = {
@@ -47,7 +57,10 @@ CATEGORY_PATTERNS = {
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Build a small persona comparison set from the filtered Tulu-3 personas subset."
+        description=(
+            "Build a persona comparison/test set from the pairwise preference data. "
+            "This script only selects the held-out comparison rows."
+        )
     )
     parser.add_argument("--input", default=str(DEFAULT_INPUT), help=f"Input jsonl path. Defaults to {DEFAULT_INPUT}.")
     parser.add_argument(
@@ -59,14 +72,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--per-category",
         type=int,
-        default=6,
-        help="Maximum samples to keep for each category before backfilling. Defaults to 6.",
+        default=40,
+        help="Maximum samples to keep for each category before backfilling. Defaults to 40.",
     )
     parser.add_argument(
         "--max-samples",
         type=int,
-        default=30,
-        help="Final number of comparison prompts to export. Defaults to 30.",
+        default=200,
+        help="Final number of comparison/test prompts to export. Defaults to 200.",
     )
     return parser.parse_args()
 
@@ -88,7 +101,7 @@ def load_candidates(path: Path, compiled_patterns: dict[str, list[re.Pattern[str
     with path.open("r", encoding="utf-8") as fin:
         for line_idx, line in enumerate(fin):
             sample = json.loads(line)
-            prompt = sample["prompt"]
+            prompt = sample["instruction"]
             categories = detect_categories(prompt, compiled_patterns)
             if not categories:
                 categories = ["generic_persona"]
@@ -189,8 +202,8 @@ def main() -> None:
     with report_path.open("w", encoding="utf-8") as fout:
         json.dump(report, fout, ensure_ascii=False, indent=2)
 
-    print(f"Loaded {len(candidates)} persona-conditioned candidates from {input_path}")
-    print(f"Saved {len(selected)} comparison samples to {output_path}")
+    print(f"Loaded {len(candidates)} pairwise preference candidates from {input_path}")
+    print(f"Saved {len(selected)} comparison/test samples to {output_path}")
     print(f"Saved report to {report_path}")
 
 

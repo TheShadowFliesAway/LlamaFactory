@@ -13,9 +13,9 @@
 # If you use another OpenAI-compatible endpoint:
 # python3 scripts/personalization_data/judge_persona_compare.py \
 #   --input data/tulu3_personas/persona_compare_generations.jsonl \
-#   --model your-judge-model \
-#   --base-url https://your-api-endpoint/v1 \
-#   --api-key your_api_key
+#   --model  gpt-4.1-mini\
+#   --base-url https://api.zhizengzeng.com/v1 \
+#   --api-key xxxx
 
 import argparse
 import json
