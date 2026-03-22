@@ -17,6 +17,7 @@
 import argparse
 import gc
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -147,15 +148,22 @@ def generate_for_rows(
     trust_remote_code: bool,
     max_new_tokens: int,
     batch_size: int,
+    model_name: str,
 ) -> list[str]:
     import torch
 
     tokenizer, model = load_model_stack(model_path, adapter_path, trust_remote_code)
     outputs: list[str] = []
+    total_batches = math.ceil(len(rows) / batch_size)
 
     for batch_start in range(0, len(rows), batch_size):
         batch_rows = rows[batch_start : batch_start + batch_size]
         prompts = [row["prompt"] for row in batch_rows]
+        batch_idx = batch_start // batch_size + 1
+        print(
+            f"[{model_name}] generating batch {batch_idx}/{total_batches} "
+            f"({min(batch_start + len(batch_rows), len(rows))}/{len(rows)} prompts)"
+        )
 
         rendered = [
             tokenizer.apply_chat_template(
@@ -198,6 +206,7 @@ def main() -> None:
 
     all_outputs: dict[str, list[str]] = {}
     for spec in model_specs:
+        print(f"\n=== Generating with model: {spec['name']} ===")
         outputs = generate_for_rows(
             rows=rows,
             model_path=str(spec["model_path"]),
@@ -205,6 +214,7 @@ def main() -> None:
             trust_remote_code=args.trust_remote_code,
             max_new_tokens=args.max_new_tokens,
             batch_size=args.batch_size,
+            model_name=str(spec["name"]),
         )
         all_outputs[str(spec["name"])] = outputs
 
