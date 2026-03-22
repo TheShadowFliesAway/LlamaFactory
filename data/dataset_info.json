@@ -25,7 +25,7 @@
     }
   },
   "tulu3_personas_sft_personalized": {
-    "file_name": "tulu3_personas/tulu3_personas_sft_personalized.jsonl",
+    "file_name": "tulu3_personas/tulu3_personas_sft_personalized_train.jsonl",
     "formatting": "sharegpt",
     "columns": {
       "messages": "messages"

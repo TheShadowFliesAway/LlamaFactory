@@ -1,0 +1,12 @@
+{
+  "persona_input": "data/tulu3_personas/tulu3_personas_sft_personalized.jsonl",
+  "compare_input": "data/tulu3_personas/persona_compare_samples.jsonl",
+  "compare_output": "data/tulu3_personas/persona_compare_samples_clean.jsonl",
+  "train_output": "data/tulu3_personas/tulu3_personas_sft_personalized_train.jsonl",
+  "total_persona_rows": 2989,
+  "compare_rows": 30,
+  "removed_for_compare": 30,
+  "kept_train_rows": 2959,
+  "cleaned_compare_prompts": 4,
+  "cleaned_train_prompts": 184
+}

@@ -1,7 +1,9 @@
 ### model
-# 底座模型路径。
-# 这里直接使用远端已经下载好的本地 Qwen2.5-3B-Instruct 模型目录。
-model_name_or_path: /root/autodl-tmp/modelscope/models/Qwen/Qwen2___5-3B-Instruct
+# 二阶段训练使用的基础模型路径。
+# 这里不再直接使用最原始的 Qwen2.5-3B-Instruct，
+# 而是使用“第一阶段全量 SFT LoRA merge 之后”的完整模型目录。
+# 这样这一步 persona 子集训练就是真正的二阶段微调。
+model_name_or_path: saves/qwen2.5-3b/merged/tulu3_personas_sft_full
 
 # 是否信任模型仓库中的自定义代码。
 trust_remote_code: true
@@ -24,14 +26,14 @@ lora_target: all
 
 ### dataset
 # 使用筛选后的 persona-conditioned 子集。
+# 这一阶段的目标是基于第一阶段模型，继续强化 persona/profile 对齐能力。
 dataset: tulu3_personas_sft_personalized
 
 # Qwen2 / Qwen2.5 指令模型模板。
 template: qwen
 
 # 最大长度。
-# 这里把上限适当提高到 1536，让训练时能保留更完整的长样本内容。
-# 它会增加显存和计算量，但在保持 batch=1 的情况下通常比直接提 batch 更稳。
+# 这里与第一阶段保持一致，避免两阶段因为长度设置不同而带来额外变量。
 cutoff_len: 1536
 
 # 是否覆盖旧缓存。
@@ -45,6 +47,7 @@ dataloader_num_workers: 0
 
 ### output
 # 输出目录。
+# 这里保存的是第二阶段 persona 子集微调得到的 LoRA adapter。
 output_dir: saves/qwen2.5-3b/lora/tulu3_personas_sft_personalized
 
 # 日志步数。
@@ -85,8 +88,8 @@ gradient_accumulation_steps: 8
 learning_rate: 1.0e-4
 
 # 训练轮数。
-# persona 子集样本更少，第一版可以先做 2 个 epoch 看 persona 对齐情况。
-num_train_epochs: 2.0
+# persona 子集样本更少，二阶段先做 2 个 epoch，观察 persona 对齐是否进一步增强。
+num_train_epochs: 3.0
 
 # 学习率调度器。
 lr_scheduler_type: cosine
@@ -108,8 +111,15 @@ ddp_timeout: 180000000
 resume_from_checkpoint: null
 
 ### eval
-# 先不开验证集，等这版 persona 子集 baseline 跑稳后再补。
-# val_size: 0.02
-# per_device_eval_batch_size: 1
-# eval_strategy: steps
-# eval_steps: 100
+# 从当前二阶段训练子集中再切出 2% 作为验证集。
+# 比较样本已经提前从训练文件中剔除，这里的验证集只用于监控二阶段训练过程。
+val_size: 0.02
+
+# 验证时每张卡的 batch size。
+per_device_eval_batch_size: 1
+
+# 按 step 间隔执行验证。
+eval_strategy: steps
+
+# 每 100 步做一次验证。
+eval_steps: 100
