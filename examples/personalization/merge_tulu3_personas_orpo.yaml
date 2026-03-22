@@ -1,0 +1,33 @@
+### Run
+# 运行命令：
+# llamafactory-cli export examples/personalization/merge_tulu3_personas_orpo.yaml
+
+### Note
+# 这一步把 ORPO 训练得到的 LoRA adapter 并回第二阶段 persona SFT merged 模型，
+# 得到一个新的完整模型目录，便于后续统一做推理评测和结果归档。
+
+### model
+# 第二阶段 persona SFT merge 后的完整模型目录。
+model_name_or_path: saves/qwen2.5-3b/merged/tulu3_personas_sft_personalized
+
+# ORPO 训练得到的 LoRA adapter。
+adapter_name_or_path: saves/qwen2.5-3b/lora/tulu3_personas_orpo
+
+# 对话模板。
+template: qwen
+
+# 是否信任模型仓库中的自定义代码。
+trust_remote_code: true
+
+### export
+# 合并后完整模型的输出目录。
+export_dir: saves/qwen2.5-3b/merged/tulu3_personas_orpo
+
+# 导出分片大小（GB）。
+export_size: 5
+
+# 导出设备。auto 通常会优先用 GPU，更快一些。
+export_device: auto  # choices: [cpu, auto]
+
+# 是否使用旧版导出格式。
+export_legacy_format: false

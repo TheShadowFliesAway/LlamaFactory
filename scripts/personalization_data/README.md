@@ -31,6 +31,9 @@ This folder contains the helper scripts used to prepare data and evaluation arti
 
 ## Evaluation Scripts
 
+- `run_persona_multimodel_generation.py`
+  - Generate outputs for multiple experiment checkpoints, such as stage-1 SFT, stage-2 SFT, DPO, and ORPO, on the same comparison/test set.
+
 - `run_persona_compare_generation.py`
   - Generate outputs for the cleaned comparison prompts with model A and model B.
 

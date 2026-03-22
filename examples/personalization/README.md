@@ -23,8 +23,14 @@ This folder stores the YAML configs for the personalization experiment pipeline.
 7. `train_tulu3_personas_dpo.yaml`
    - DPO training on the converted pairwise preference dataset.
 
-8. `train_tulu3_personas_orpo.yaml`
+8. `merge_tulu3_personas_dpo.yaml`
+   - Merge the DPO LoRA adapter into the stage-2 merged model.
+
+9. `train_tulu3_personas_orpo.yaml`
    - ORPO training on the same pairwise preference dataset.
+
+10. `merge_tulu3_personas_orpo.yaml`
+   - Merge the ORPO LoRA adapter into the stage-2 merged model.
 
 ## File Summary
 
@@ -49,11 +55,18 @@ This folder stores the YAML configs for the personalization experiment pipeline.
 - `train_tulu3_personas_dpo.yaml`
   - DPO config using the converted pairwise preference dataset.
 
+- `merge_tulu3_personas_dpo.yaml`
+  - Merge config for the DPO adapter.
+
 - `train_tulu3_personas_orpo.yaml`
   - ORPO config using the converted pairwise preference dataset.
+
+- `merge_tulu3_personas_orpo.yaml`
+  - Merge config for the ORPO adapter.
 
 ## Notes
 
 - Every YAML file now includes a copyable run command at the top.
 - The stage-2 SFT config uses the persona training subset with comparison prompts removed.
 - The DPO / ORPO configs assume you have already merged the stage-2 SFT result.
+- The DPO / ORPO merge configs produce standalone complete model directories for unified evaluation.
