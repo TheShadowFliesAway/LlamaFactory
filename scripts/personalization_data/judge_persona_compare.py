@@ -5,14 +5,14 @@
 #
 # export OPENAI_API_KEY=your_api_key
 # python3 scripts/personalization_data/judge_persona_compare.py \
-#   --input data/tulu3_personas/persona_compare_generations.jsonl \
+#   --input data/tulu3_personas/compare/persona_compare_generations.jsonl \
 #   --model gpt-4.1-mini \
-#   --output data/tulu3_personas/persona_compare_judgments.jsonl \
-#   --report data/tulu3_personas/persona_compare_judgments_report.json
+#   --output data/tulu3_personas/compare/persona_compare_judgments.jsonl \
+#   --report data/tulu3_personas/compare/persona_compare_judgments_report.json
 #
 # If you use another OpenAI-compatible endpoint:
 # python3 scripts/personalization_data/judge_persona_compare.py \
-#   --input data/tulu3_personas/persona_compare_generations.jsonl \
+#   --input data/tulu3_personas/compare/persona_compare_generations.jsonl \
 #   --model  gpt-4.1-mini\
 #   --base-url https://api.zhizengzeng.com/v1 \
 #   --api-key xxxx
@@ -65,17 +65,17 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Judge stage-1 vs stage-2 persona comparison generations.")
     parser.add_argument(
         "--input",
-        default="data/tulu3_personas/persona_compare_generations.jsonl",
+        default="data/tulu3_personas/compare/persona_compare_generations.jsonl",
         help="Input jsonl with model_a_output and model_b_output.",
     )
     parser.add_argument(
         "--output",
-        default="data/tulu3_personas/persona_compare_judgments.jsonl",
+        default="data/tulu3_personas/compare/persona_compare_judgments.jsonl",
         help="Output jsonl with per-sample judgments.",
     )
     parser.add_argument(
         "--report",
-        default="data/tulu3_personas/persona_compare_judgments_report.json",
+        default="data/tulu3_personas/compare/persona_compare_judgments_report.json",
         help="Output summary report json.",
     )
     parser.add_argument("--model", required=True, help="Judge model name.")

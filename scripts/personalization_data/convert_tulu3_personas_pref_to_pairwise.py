@@ -6,9 +6,9 @@ import json
 from pathlib import Path
 
 
-DEFAULT_INPUT = Path("data/tulu3_personas/tulu3_personas_pref.jsonl")
-DEFAULT_OUTPUT = Path("data/tulu3_personas/tulu3_personas_pref_pairwise.jsonl")
-DEFAULT_REPORT = Path("data/tulu3_personas/tulu3_personas_pref_pairwise_report.json")
+DEFAULT_INPUT = Path("data/tulu3_personas/pref/tulu3_personas_pref.jsonl")
+DEFAULT_OUTPUT = Path("data/tulu3_personas/pref/tulu3_personas_pref_pairwise.jsonl")
+DEFAULT_REPORT = Path("data/tulu3_personas/pref/tulu3_personas_pref_pairwise_report.json")
 
 
 def parse_args() -> argparse.Namespace:

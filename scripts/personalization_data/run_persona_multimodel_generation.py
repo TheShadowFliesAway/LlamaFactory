@@ -5,9 +5,9 @@
 #
 # Generate outputs for the four main experiment checkpoints:
 # python3 scripts/personalization_data/run_persona_multimodel_generation.py \
-#   --input data/tulu3_personas/persona_compare_samples_clean.jsonl \
-#   --output data/tulu3_personas/persona_multimodel_generations.jsonl \
-#   --report data/tulu3_personas/persona_multimodel_generations_report.json \
+#   --input data/tulu3_personas/compare/persona_compare_samples_clean.jsonl \
+#   --output data/tulu3_personas/compare/persona_multimodel_generations.jsonl \
+#   --report data/tulu3_personas/compare/persona_multimodel_generations_report.json \
 #   --model stage1=saves/qwen2.5-3b/merged/tulu3_personas_sft_full \
 #   --model stage2=saves/qwen2.5-3b/merged/tulu3_personas_sft_personalized \
 #   --model dpo=saves/qwen2.5-3b/merged/tulu3_personas_dpo \
@@ -31,17 +31,17 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--input",
-        default="data/tulu3_personas/persona_compare_samples_clean.jsonl",
+        default="data/tulu3_personas/compare/persona_compare_samples_clean.jsonl",
         help="Input comparison jsonl file.",
     )
     parser.add_argument(
         "--output",
-        default="data/tulu3_personas/persona_multimodel_generations.jsonl",
+        default="data/tulu3_personas/compare/persona_multimodel_generations.jsonl",
         help="Output jsonl file containing prompt + outputs from all models.",
     )
     parser.add_argument(
         "--report",
-        default="data/tulu3_personas/persona_multimodel_generations_report.json",
+        default="data/tulu3_personas/compare/persona_multimodel_generations_report.json",
         help="Output report json file.",
     )
     parser.add_argument(

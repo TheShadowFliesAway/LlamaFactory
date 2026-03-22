@@ -5,21 +5,21 @@
 #
 # Remove the selected comparison/test rows from the pairwise preference data:
 # python3 scripts/personalization_data/clean_and_split_persona_compare_set.py \
-#   --persona-input data/tulu3_personas/tulu3_personas_pref_pairwise.jsonl \
-#   --compare-input data/tulu3_personas/persona_compare_samples_clean.jsonl \
-#   --train-output data/tulu3_personas/tulu3_personas_pref_pairwise_train.jsonl \
-#   --report data/tulu3_personas/persona_compare_clean_split_report.json
+#   --persona-input data/tulu3_personas/pref/tulu3_personas_pref_pairwise.jsonl \
+#   --compare-input data/tulu3_personas/compare/persona_compare_samples_clean.jsonl \
+#   --train-output data/tulu3_personas/pref/tulu3_personas_pref_pairwise_train.jsonl \
+#   --report data/tulu3_personas/compare/persona_compare_clean_split_report.json
 
 import argparse
 import json
 from pathlib import Path
 
 
-DEFAULT_PERSONA_INPUT = Path("data/tulu3_personas/tulu3_personas_pref_pairwise.jsonl")
-DEFAULT_COMPARE_INPUT = Path("data/tulu3_personas/persona_compare_samples_clean.jsonl")
-DEFAULT_COMPARE_OUTPUT = Path("data/tulu3_personas/persona_compare_samples_clean.jsonl")
-DEFAULT_TRAIN_OUTPUT = Path("data/tulu3_personas/tulu3_personas_pref_pairwise_train.jsonl")
-DEFAULT_REPORT = Path("data/tulu3_personas/persona_compare_clean_split_report.json")
+DEFAULT_PERSONA_INPUT = Path("data/tulu3_personas/pref/tulu3_personas_pref_pairwise.jsonl")
+DEFAULT_COMPARE_INPUT = Path("data/tulu3_personas/compare/persona_compare_samples_clean.jsonl")
+DEFAULT_COMPARE_OUTPUT = Path("data/tulu3_personas/compare/persona_compare_samples_clean.jsonl")
+DEFAULT_TRAIN_OUTPUT = Path("data/tulu3_personas/pref/tulu3_personas_pref_pairwise_train.jsonl")
+DEFAULT_REPORT = Path("data/tulu3_personas/compare/persona_compare_clean_split_report.json")
 
 
 def parse_args() -> argparse.Namespace:

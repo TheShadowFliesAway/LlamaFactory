@@ -5,9 +5,9 @@
 #
 # Build a 200-sample comparison/test set from the pairwise preference data:
 # python3 scripts/personalization_data/build_persona_comparison_set.py \
-#   --input data/tulu3_personas/tulu3_personas_pref_pairwise.jsonl \
-#   --output data/tulu3_personas/persona_compare_samples_clean.jsonl \
-#   --report data/tulu3_personas/persona_compare_build_report.json \
+#   --input data/tulu3_personas/pref/tulu3_personas_pref_pairwise.jsonl \
+#   --output data/tulu3_personas/compare/persona_compare_samples_clean.jsonl \
+#   --report data/tulu3_personas/compare/persona_compare_build_report.json \
 #   --max-samples 200 \
 #   --per-category 40
 
@@ -18,9 +18,9 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 
-DEFAULT_INPUT = Path("data/tulu3_personas/tulu3_personas_pref_pairwise.jsonl")
-DEFAULT_OUTPUT = Path("data/tulu3_personas/persona_compare_samples_clean.jsonl")
-DEFAULT_REPORT = Path("data/tulu3_personas/persona_compare_build_report.json")
+DEFAULT_INPUT = Path("data/tulu3_personas/pref/tulu3_personas_pref_pairwise.jsonl")
+DEFAULT_OUTPUT = Path("data/tulu3_personas/compare/persona_compare_samples_clean.jsonl")
+DEFAULT_REPORT = Path("data/tulu3_personas/compare/persona_compare_build_report.json")
 
 
 CATEGORY_PATTERNS = {

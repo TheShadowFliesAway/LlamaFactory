@@ -8,9 +8,9 @@ from collections import Counter
 from pathlib import Path
 
 
-DEFAULT_INPUT = Path("data/tulu3_personas/tulu3_personas_sft.jsonl")
-DEFAULT_OUTPUT = Path("data/tulu3_personas/tulu3_personas_sft_personalized.jsonl")
-DEFAULT_REPORT = Path("data/tulu3_personas/tulu3_personas_sft_personalized_report.json")
+DEFAULT_INPUT = Path("data/tulu3_personas/sft/tulu3_personas_sft.jsonl")
+DEFAULT_OUTPUT = Path("data/tulu3_personas/sft/tulu3_personas_sft_personalized.jsonl")
+DEFAULT_REPORT = Path("data/tulu3_personas/sft/tulu3_personas_sft_personalized_report.json")
 
 # These rules are intentionally simple and explainable.
 # We want a first-pass subset with obvious persona/profile signals rather than
