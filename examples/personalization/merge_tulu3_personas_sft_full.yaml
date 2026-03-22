@@ -1,0 +1,35 @@
+### Note
+# 合并 LoRA adapter 时，不要使用量化模型或 quantization_bit。
+# 这一步的目标是把第一阶段全量 SFT 学到的 LoRA 权重并回基础模型，
+# 得到一个新的完整模型目录，供后续 persona 子集二阶段微调使用。
+
+### model
+# 原始底座模型路径。
+# 这里仍然指向最初的 Qwen2.5-3B-Instruct 本地模型目录。
+model_name_or_path: /root/autodl-tmp/modelscope/models/Qwen/Qwen2___5-3B-Instruct
+
+# 第一阶段全量 SFT 训练得到的 LoRA adapter 目录。
+adapter_name_or_path: saves/qwen2.5-3b/lora/tulu3_personas_sft_full
+
+# 对话模板。
+template: qwen
+
+# 是否信任模型仓库中的自定义代码。
+trust_remote_code: true
+
+### export
+# 合并后完整模型的输出目录。
+# 后面 persona 子集二阶段训练可以把 model_name_or_path 改到这里。
+export_dir: saves/qwen2.5-3b/merged/tulu3_personas_sft_full
+
+# 导出分片大小（单位 GB）。
+# 5 是仓库示例里的常见值，通常可以直接沿用。
+export_size: 5
+
+# 在哪个设备上执行导出。
+# cpu 更稳，显存压力更小，但可能慢一点。
+export_device: auto  # choices: [cpu, auto]
+
+# 是否使用旧版导出格式。
+# 一般保持 false。
+export_legacy_format: false
