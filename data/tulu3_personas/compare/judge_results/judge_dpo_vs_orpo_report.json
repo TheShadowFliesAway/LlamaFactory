@@ -1,0 +1,36 @@
+{
+  "input": "data/tulu3_personas/compare/pairwise_judge_inputs/persona_pair_dpo_vs_orpo.jsonl",
+  "output": "data/tulu3_personas/compare/judge_results/judge_dpo_vs_orpo.jsonl",
+  "num_rows": 200,
+  "judge_model": "gpt-4.1-mini",
+  "base_url": "https://api.zhizengzeng.com/v1",
+  "temperature": 0.0,
+  "max_retries": 3,
+  "summary": {
+    "persona_alignment": {
+      "A": 13,
+      "B": 7,
+      "tie": 180
+    },
+    "instruction_following": {
+      "A": 97,
+      "B": 75,
+      "tie": 28
+    },
+    "constraint_satisfaction": {
+      "A": 91,
+      "B": 71,
+      "tie": 38
+    },
+    "response_quality": {
+      "A": 105,
+      "B": 80,
+      "tie": 15
+    },
+    "overall_preference": {
+      "A": 107,
+      "B": 80,
+      "tie": 13
+    }
+  }
+}

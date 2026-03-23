@@ -1,0 +1,36 @@
+{
+  "input": "data/tulu3_personas/compare/pairwise_judge_inputs/persona_pair_stage1_vs_stage2.jsonl",
+  "output": "data/tulu3_personas/compare/judge_results/judge_stage1_vs_stage2.jsonl",
+  "num_rows": 200,
+  "judge_model": "gpt-4.1-mini",
+  "base_url": "https://api.zhizengzeng.com/v1",
+  "temperature": 0.0,
+  "max_retries": 3,
+  "summary": {
+    "persona_alignment": {
+      "A": 3,
+      "B": 20,
+      "tie": 177
+    },
+    "instruction_following": {
+      "A": 78,
+      "B": 84,
+      "tie": 38
+    },
+    "constraint_satisfaction": {
+      "A": 68,
+      "B": 88,
+      "tie": 44
+    },
+    "response_quality": {
+      "A": 75,
+      "B": 105,
+      "tie": 20
+    },
+    "overall_preference": {
+      "A": 79,
+      "B": 105,
+      "tie": 16
+    }
+  }
+}

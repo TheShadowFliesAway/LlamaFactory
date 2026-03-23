@@ -1,0 +1,156 @@
+{
+  "judge_output_dir": "data/tulu3_personas/compare/judge_results",
+  "pairs_found": [
+    "dpo_vs_orpo",
+    "stage1_vs_stage2",
+    "stage2_vs_dpo",
+    "stage2_vs_orpo"
+  ],
+  "pairs_missing": [],
+  "reports": {
+    "stage1_vs_stage2": {
+      "input": "data/tulu3_personas/compare/pairwise_judge_inputs/persona_pair_stage1_vs_stage2.jsonl",
+      "output": "data/tulu3_personas/compare/judge_results/judge_stage1_vs_stage2.jsonl",
+      "num_rows": 200,
+      "judge_model": "gpt-4.1-mini",
+      "base_url": "https://api.zhizengzeng.com/v1",
+      "temperature": 0.0,
+      "max_retries": 3,
+      "summary": {
+        "persona_alignment": {
+          "A": 3,
+          "B": 20,
+          "tie": 177
+        },
+        "instruction_following": {
+          "A": 78,
+          "B": 84,
+          "tie": 38
+        },
+        "constraint_satisfaction": {
+          "A": 68,
+          "B": 88,
+          "tie": 44
+        },
+        "response_quality": {
+          "A": 75,
+          "B": 105,
+          "tie": 20
+        },
+        "overall_preference": {
+          "A": 79,
+          "B": 105,
+          "tie": 16
+        }
+      }
+    },
+    "stage2_vs_dpo": {
+      "input": "data/tulu3_personas/compare/pairwise_judge_inputs/persona_pair_stage2_vs_dpo.jsonl",
+      "output": "data/tulu3_personas/compare/judge_results/judge_stage2_vs_dpo.jsonl",
+      "num_rows": 200,
+      "judge_model": "gpt-4.1-mini",
+      "base_url": "https://api.zhizengzeng.com/v1",
+      "temperature": 0.0,
+      "max_retries": 3,
+      "summary": {
+        "persona_alignment": {
+          "A": 8,
+          "B": 18,
+          "tie": 174
+        },
+        "instruction_following": {
+          "A": 72,
+          "B": 99,
+          "tie": 29
+        },
+        "constraint_satisfaction": {
+          "A": 75,
+          "B": 86,
+          "tie": 39
+        },
+        "response_quality": {
+          "A": 82,
+          "B": 107,
+          "tie": 11
+        },
+        "overall_preference": {
+          "A": 81,
+          "B": 109,
+          "tie": 10
+        }
+      }
+    },
+    "stage2_vs_orpo": {
+      "input": "data/tulu3_personas/compare/pairwise_judge_inputs/persona_pair_stage2_vs_orpo.jsonl",
+      "output": "data/tulu3_personas/compare/judge_results/judge_stage2_vs_orpo.jsonl",
+      "num_rows": 200,
+      "judge_model": "gpt-4.1-mini",
+      "base_url": "https://api.zhizengzeng.com/v1",
+      "temperature": 0.0,
+      "max_retries": 3,
+      "summary": {
+        "persona_alignment": {
+          "A": 7,
+          "B": 5,
+          "tie": 188
+        },
+        "instruction_following": {
+          "A": 77,
+          "B": 73,
+          "tie": 50
+        },
+        "constraint_satisfaction": {
+          "A": 69,
+          "B": 73,
+          "tie": 58
+        },
+        "response_quality": {
+          "A": 93,
+          "B": 77,
+          "tie": 30
+        },
+        "overall_preference": {
+          "A": 96,
+          "B": 77,
+          "tie": 27
+        }
+      }
+    },
+    "dpo_vs_orpo": {
+      "input": "data/tulu3_personas/compare/pairwise_judge_inputs/persona_pair_dpo_vs_orpo.jsonl",
+      "output": "data/tulu3_personas/compare/judge_results/judge_dpo_vs_orpo.jsonl",
+      "num_rows": 200,
+      "judge_model": "gpt-4.1-mini",
+      "base_url": "https://api.zhizengzeng.com/v1",
+      "temperature": 0.0,
+      "max_retries": 3,
+      "summary": {
+        "persona_alignment": {
+          "A": 13,
+          "B": 7,
+          "tie": 180
+        },
+        "instruction_following": {
+          "A": 97,
+          "B": 75,
+          "tie": 28
+        },
+        "constraint_satisfaction": {
+          "A": 91,
+          "B": 71,
+          "tie": 38
+        },
+        "response_quality": {
+          "A": 105,
+          "B": 80,
+          "tie": 15
+        },
+        "overall_preference": {
+          "A": 107,
+          "B": 80,
+          "tie": 13
+        }
+      }
+    }
+  }
+}

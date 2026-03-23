@@ -1,0 +1,35 @@
+{
+  "input": "data/tulu3_personas/compare/persona_multimodel_generations.jsonl",
+  "output_dir": "data/tulu3_personas/compare/pairwise_judge_inputs",
+  "num_rows": 200,
+  "pairs": [
+    {
+      "pair": "stage1_vs_stage2",
+      "output_path": "data/tulu3_personas/compare/pairwise_judge_inputs/persona_pair_stage1_vs_stage2.jsonl",
+      "num_rows": 200,
+      "model_a_name": "stage1",
+      "model_b_name": "stage2"
+    },
+    {
+      "pair": "stage2_vs_dpo",
+      "output_path": "data/tulu3_personas/compare/pairwise_judge_inputs/persona_pair_stage2_vs_dpo.jsonl",
+      "num_rows": 200,
+      "model_a_name": "stage2",
+      "model_b_name": "dpo"
+    },
+    {
+      "pair": "stage2_vs_orpo",
+      "output_path": "data/tulu3_personas/compare/pairwise_judge_inputs/persona_pair_stage2_vs_orpo.jsonl",
+      "num_rows": 200,
+      "model_a_name": "stage2",
+      "model_b_name": "orpo"
+    },
+    {
+      "pair": "dpo_vs_orpo",
+      "output_path": "data/tulu3_personas/compare/pairwise_judge_inputs/persona_pair_dpo_vs_orpo.jsonl",
+      "num_rows": 200,
+      "model_a_name": "dpo",
+      "model_b_name": "orpo"
+    }
+  ]
+}
